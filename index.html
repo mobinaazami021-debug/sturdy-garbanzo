@@ -1,61 +1,114 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <title>آزمایشگاه احتمال — نسخه فوق‌پیشرفته</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>آزمایشگاه احتمال — ریاضی نهم (Canvas 3D سبک)</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="app">
+    <header>
+      <!-- کارتونی معلم (SVG داخلی تا نیاز به فایل نداشته باشی) -->
+      <div id="teacherWrap">
+        <svg id="teacherSVG" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#ffd89b"/>
+              <stop offset="1" stop-color="#ffb3a7"/>
+            </linearGradient>
+          </defs>
+          <rect rx="14" width="160" height="160" fill="#f6f9ff"/>
+          <circle cx="80" cy="46" r="26" fill="url(#g1)"/>
+          <rect x="48" y="84" rx="10" width="64" height="56" fill="#ffe4d6"/>
+          <circle cx="68" cy="40" r="3" fill="#3b3b3b"/>
+          <circle cx="92" cy="40" r="3" fill="#3b3b3b"/>
+          <path d="M64 52 q16 12 32 0" stroke="#3b3b3b" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div id="teacherBubble">سلام! من معلم احتمال تو هستم — آماده‌ای شروع کنی؟</div>
+      </div>
 
-<h1>🎲 آزمایشگاه کارتونی و انیمیشنی احتمال — ریاضی نهم 🎉</h1>
+      <div id="titleWrap">
+        <h1>آزمایشگاه احتمال — پایه نهم</h1>
+        <p class="subtitle">مثال‌ها، فضای نمونه، فرمول، و انیمیشن‌های تاس/سکه/گوی — همه با Canvas</p>
+      </div>
+    </header>
 
-<!-- امتیاز -->
-<div id="scoreCard" class="card">
-    <p>امتیاز: <span id="score">0</span></p>
-</div>
+    <main>
+      <section id="left">
+        <div class="card" id="questionCard">
+          <div class="meta">
+            <h2 id="qText">در حال بارگذاری سؤال...</h2>
+            <button id="nextBtn" class="primary">❯ سؤال بعدی</button>
+          </div>
 
-<!-- مثال -->
-<div class="card">
-    <h2>مثال آموزشی</h2>
-    <p id="exampleText">روی «مثال بعدی» کلیک کن 👇</p>
-    <button onclick="loadExample()">🔄 مثال بعدی</button>
-</div>
+          <div class="box smallNote" id="sampleBox">فضای نمونه S: —</div>
 
-<!-- انیمیشن‌ها -->
-<div class="card">
-    <h2>🎬 ابزارهای آزمایش احتمال</h2>
+          <div class="counts">
+            <div>n(S) = <span id="nS">—</span></div>
+            <div>n(A) = <span id="nA">—</span></div>
+          </div>
 
-    <button onclick="rollDice3D()">🎲 تاس سه‌بعدی</button>
-    <div id="dice3D" class="dice hidden"></div>
+          <div class="formula">فرمول: <strong>P(A) = n(A) / n(S)</strong></div>
 
-    <br><br>
+          <div class="fractionInput">
+            <label>احتمال را به‌صورت کسر وارد کن:</label>
+            <div class="fractionInputs">
+              <input id="userNum" type="number" placeholder="صورت">
+              <span class="slash">/</span>
+              <input id="userDen" type="number" placeholder="مخرج">
+            </div>
+            <button id="checkBtn" class="primary">بررسی</button>
+          </div>
 
-    <button onclick="flipCoin()">🪙 سکه چرخان</button>
-    <div id="coin" class="coin hidden"></div>
+          <div id="result" class="result">جواب را وارد کن و بررسی را بزن.</div>
+        </div>
 
-    <br><br>
+        <div class="card">
+          <h3>توضیح کوتاه</h3>
+          <div id="explain" class="box">بعد از بررسی، توضیح کوتاه دربارهٔ علت جواب نمایش داده می‌شود.</div>
+        </div>
+      </section>
 
-    <button onclick="showBalls()">⚽ توپ‌های رنگی</button>
-    <div id="ballsBox" class="balls hidden"></div>
-</div>
+      <aside id="right">
+        <div class="card" id="animCard">
+          <h3>انیمیشن‌ها</h3>
+          <div id="canvasRow">
+            <div class="animBox">
+              <h4>سکه</h4>
+              <canvas id="coinCanvas" class="animCanvas"></canvas>
+              <button id="coinBtn" class="smallBtn">پرش سکه</button>
+            </div>
+            <div class="animBox">
+              <h4>تاس</h4>
+              <canvas id="diceCanvas" class="animCanvas"></canvas>
+              <button id="diceBtn" class="smallBtn">بچرخان تاس</button>
+            </div>
+            <div class="animBox">
+              <h4>گوی‌ها</h4>
+              <canvas id="ballsCanvas" class="animCanvas"></canvas>
+              <button id="ballsBtn" class="smallBtn">نمایش گوی‌ها</button>
+            </div>
+          </div>
+          <p class="smallNote">انیمیشن متناسب با سؤال به‌صورت خودکار اجرا می‌شود؛ اما می‌توانی دستی هم اجرا کنی.</p>
+        </div>
 
-<!-- ورودی احتمال -->
-<div class="card">
-    <h2>محاسبه احتمال</h2>
-    <p>احتمال را به صورت کسر وارد کن:</p>
+        <div class="card">
+          <h3>امتیاز و وضعیت</h3>
+          <div class="box">
+            امتیاز: <span id="score">0</span><br>
+            تعداد سؤال حل‌شده: <span id="doneCount">0</span>
+          </div>
+        </div>
 
-    <div class="fraction">
-        <div><input id="numInput" type="number"></div>
-        <hr>
-        <div><input id="denInput" type="number"></div>
-    </div>
+      </aside>
+    </main>
 
-    <br><br>
-    <button onclick="calculate()">✔️ بررسی جواب</button>
+    <footer>
+      ساخته شده برای کلاس تو ❤ — آمادهٔ آپلود در GitHub Pages
+    </footer>
+  </div>
 
-    <div id="resultBox"></div>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
