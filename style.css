@@ -1,63 +1,49 @@
 :root{
-  --card-bg: #ffffff;
-  --accent: #3b6cff;
-  --muted: #6b7280;
-  --glass: rgba(255,255,255,0.8);
+  --accent:#3b6cff;
+  --muted:#6b7280;
+  --card:#ffffff;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family: "Vazirmatn", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: linear-gradient(180deg,#e9f1ff 0%, #f8fbff 100%);
-  color:#123;
-  direction: rtl;
-  -webkit-font-smoothing:antialiased;
-}
-#app{max-width:1100px;margin:18px auto;padding:12px}
-header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px}
-#teacherWrap{display:flex;gap:12px;align-items:center}
-#teacherSVG{width:86px;height:86px;border-radius:12px;box-shadow:0 6px 18px rgba(50,70,120,0.07);background:#fff;padding:6px}
-#teacherBubble{background:linear-gradient(90deg,#fff 0%, #fff9e6 100%);padding:8px;border-radius:10px;box-shadow:0 6px 18px rgba(50,70,120,0.04);font-size:14px}
-#titleWrap h1{color:var(--accent);margin-bottom:6px}
-.subtitle{color:var(--muted);font-size:13px}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;padding:0;font-family:"Vazirmatn",sans-serif;direction:rtl}
+header{background:linear-gradient(90deg,var(--accent),#2b56d6);color:#fff;padding:12px}
+.header-inner{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:auto}
+.brand{font-size:20px;font-weight:700}
+.teacher{display:flex;align-items:center;gap:8px}
+.teacher-svg{width:56px;height:56px;border-radius:8px;background:#fff;padding:6px}
+.teacher-bubble{background:#fff;color:#123;padding:8px;border-radius:10px;font-size:13px}
 
-/* layout */
-main{display:flex;gap:18px;align-items:flex-start}
-#left{flex:1;min-width:340px}
+#app{max-width:1100px;margin:18px auto;display:flex;gap:18px;padding:0 12px}
+#left{flex:1}
 #right{width:420px}
 
-/* cards */
-.card{background:var(--card-bg);border-radius:12px;padding:14px;box-shadow:0 10px 30px rgba(37,52,124,0.06);margin-bottom:14px}
-.meta{display:flex;gap:10px;align-items:center;justify-content:space-between}
-#nextBtn{background:var(--accent);color:white;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
-.box{background:#f7fbff;border-radius:8px;padding:12px;font-size:15px;min-height:40px}
-.counts{display:flex;gap:18px;margin-top:10px;color:var(--muted)}
-.formula{background:#f6f8ff;padding:8px;border-radius:8px;margin-top:8px;font-size:15px}
-.fractionInput{display:flex;flex-direction:column;gap:8px;margin-top:12px;align-items:center}
-.fractionInputs{display:flex;align-items:center;gap:8px}
-.fractionInputs input{width:100px;padding:8px;border-radius:8px;border:1px solid #dbe6ff;text-align:center;font-size:16px}
-.slash{font-weight:bold}
-.primary{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;border:none;margin-top:10px;cursor:pointer}
-.result{margin-top:12px;padding:12px;border-radius:8px;background:#fbfbff;color:#1a3b6a;min-height:54px}
+.card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 8px 24px rgba(20,30,80,0.06);margin-bottom:14px}
+.q-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#qText{margin:0;font-size:20px}
+.btn{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
+.primary{background:#1f4fd8}
 
-/* canvas row */
-#canvasRow{display:flex;gap:10px;justify-content:space-between;align-items:flex-start}
-.animBox{flex:1;text-align:center;padding:6px}
-.animBox h4{margin:4px 0;font-size:15px}
-.animCanvas{width:100%;height:220px;background:linear-gradient(#fbfeff,#eef6ff);border-radius:10px;border:1px solid #e6eefc;display:block;margin:6px 0}
-.smallBtn{background:#fff;border:1px solid #dde8ff;padding:6px 8px;border-radius:8px;cursor:pointer;font-size:13px}
-.smallNote{font-size:12px;color:var(--muted);margin-top:6px}
+.sample-box{margin-top:12px;background:#f6f9ff;padding:10px;border-radius:8px;color:#123}
+.counts{display:flex;gap:12px;margin-top:10px;color:var(--muted)}
+.formula{margin-top:12px;background:#f7fbff;padding:10px;border-radius:8px}
+.input-row{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+.fraction{display:flex;flex-direction:column;align-items:center}
+.fraction input{width:110px;padding:8px;border-radius:8px;border:1px solid #e0e7ff;text-align:center;font-size:16px}
+.bar{width:110px;height:3px;background:#222;margin:6px 0;border-radius:2px}
+.result{margin-top:14px;padding:10px;border-radius:8px;background:#fbfbff;color:#1a3b6a;min-height:70px}
+.explain{margin-top:8px;color:#374151;font-size:14px}
 
-/* right side small card */
-.card h3{margin-bottom:8px}
-.box{font-size:15px}
+.anim-card .canvas-row{display:flex;gap:8px;justify-content:space-between;align-items:flex-start}
+.animBox{flex:1;text-align:center}
+.animCanvas{width:100%;height:160px;border-radius:10px;background:linear-gradient(#fbfeff,#eef6ff);border:1px solid #e6eefc}
+.smallNote{font-size:13px;color:var(--muted);margin-top:6px}
 
-/* footer */
-footer{text-align:center;margin-top:10px;color:var(--muted);font-size:13px}
+.info-card .box{background:#f7fbff;padding:8px;border-radius:8px}
 
-/* responsiveness */
+footer{text-align:center;margin:18px 0;color:var(--muted);font-size:13px}
+
+/* responsive */
 @media (max-width:900px){
-  main{flex-direction:column}
+  #app{flex-direction:column}
   #right{width:100%}
-  #teacherBubble{display:none}
+  .teacher-bubble{display:none}
 }
