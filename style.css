@@ -1,113 +1,39 @@
-body {
-    font-family: "Vazirmatn", sans-serif;
-    direction: rtl;
-    text-align: center;
-    background: linear-gradient(#aee5ff, #e3f6ff);
-    padding: 20px;
+:root{
+  --card-bg: #ffffff;
+  --accent: #3b6cff;
+  --muted: #6b7280;
 }
-
-h1 {
-    color: #004b8d;
-    font-size: 32px;
-    text-shadow: 2px 2px #fff;
-    animation: float 3s ease-in-out infinite;
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "Vazirmatn", sans-serif;
+  background: linear-gradient(180deg,#e9f1ff 0%, #f8fbff 100%);
+  color:#123;
+  direction: rtl;
 }
-
-@keyframes float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-    100% { transform: translateY(0); }
-}
-
-.card {
-    background: #fff7d1;
-    border-radius: 20px;
-    padding: 20px;
-    margin: 20px auto;
-    width: 80%;
-    box-shadow: 0px 0px 20px #0003;
-}
-
-button {
-    background: #ff9f1c;
-    color: white;
-    font-size: 19px;
-    padding: 12px 25px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #ff7a00;
-    transform: scale(1.1);
-}
-
-.fraction input {
-    width: 60px;
-    font-size: 18px;
-    border: none;
-    border-bottom: 2px solid #444;
-    background: transparent;
-}
-
-.fraction {
-    font-size: 22px;
-    margin: 10px;
-}
-
-#resultBox {
-    font-size: 22px;
-    font-weight: bold;
-    margin-top: 20px;
-}
-
-/* سکه چرخان */
-.coin {
-    width: 120px;
-    height: 120px;
-    margin: 15px auto;
-    background-image: url("https://i.imgur.com/2s1FzqE.png");
-    background-size: cover;
-    animation: spinCoin 1s linear;
-}
-
-@keyframes spinCoin {
-    from { transform: rotateY(0); }
-    to { transform: rotateY(900deg); }
-}
-
-/* تاس سه بعدی */
-.dice {
-    width: 100px;
-    height: 100px;
-    margin: 20px auto;
-    background-size: cover;
-    animation: spinDice 1s ease-out;
-}
-
-@keyframes spinDice {
-    from { transform: rotateX(0) rotateY(0); }
-    to { transform: rotateX(720deg) rotateY(720deg); }
-}
-
-.hidden { display: none; }
-
-/* توپ‌های رنگی */
-.balls {
-    margin-top: 10px;
-}
-
-.ball {
-    width: 40px;
-    height: 40px;
-    display: inline-block;
-    border-radius: 50%;
-    margin: 5px;
-    animation: pop 0.4s ease-out;
-}
-
-@keyframes pop {
-    from { transform: scale(0.2); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
+#app{max-width:1200px;margin:20px auto;padding:16px}
+header{text-align:center;margin-bottom:12px}
+header h1{margin:0;color:var(--accent);font-size:28px}
+.subtitle{margin:6px 0 0;color:var(--muted)}
+main{display:flex;gap:18px;align-items:flex-start}
+#left{flex:1;min-width:360px}
+#right{width:520px}
+.card{background:var(--card-bg);border-radius:14px;padding:14px;box-shadow:0 6px 18px rgba(50,70,120,0.07);margin-bottom:14px}
+#questionCard h2{margin:0 0 10px;font-size:20px}
+.meta{display:flex;gap:10px;align-items:center}
+#nextBtn{background:var(--accent);color:white;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+.box{background:#f4f8ff;border-radius:8px;padding:10px;font-size:15px;min-height:48px;word-break:break-word}
+.counts{display:flex;gap:12px;margin-top:8px;color:var(--muted)}
+.formula{background:#f6f8ff;padding:8px;border-radius:8px;margin-top:8px}
+.fractionInput{display:flex;align-items:center;gap:8px;margin-top:10px;justify-content:center}
+.fractionInput input{width:86px;padding:8px;border-radius:8px;border:1px solid #d0d7ff;text-align:center;font-size:16px}
+.slash{font-weight:bold}
+.primary{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;border:none;margin-top:10px;cursor:pointer}
+.result{margin-top:12px;padding:10px;border-radius:8px;background:#fbfbff;color:#1a3b6a;min-height:50px}
+#canvasRow{display:flex;gap:12px;justify-content:space-between;align-items:flex-start}
+.animBox{flex:1;text-align:center;padding:8px}
+.animBox h4{margin:6px 0;font-size:16px}
+.animCanvas{width:100%;height:220px;background:linear-gradient(#fbfeff,#eef6ff);border-radius:10px;border:1px solid #e6eefc;display:block;margin:6px 0}
+.smallNote{font-size:12px;color:var(--muted)}
+footer{text-align:center;margin-top:10px;color:var(--muted);font-size:13px}
