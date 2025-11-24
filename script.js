@@ -1,14 +1,14 @@
-/* آزمایشگاه احتمال — کامل با 50 سؤال
-   - نگه داشتن ویژگی‌ها: فضای نمونه، فرمول، بررسی کسر با پذیرش معادل‌ها
-   - انیمیشن سه‌بعدی: need dice.glb و coin.glb در ریشه
-   - گوی‌ها: canvas2D
+/* آزمایشگاه احتمال — Canvas 3D سبک
+   - 50 سؤال (کتب نهم)
+   - انیمیشن تاس (چرخش-شبیه‌سازی)، سکه (چرخش/فلپ)، گوی‌ها (۲D)
+   - نمایش فضای نمونه، n(S), n(A), P(A)
+   - پذیرش کسرهای معادل
 */
 
-/* ====== بانک 50 سؤال (سطح کتاب) ======
-   هر سوال: { text, sample: [...], event: [...], anim: 'dice'|'coin'|'balls'|'none' }
-*/
-const questions = [
-  // 1-10 تاس
+/* =========================
+   بانک 50 سؤال (سطح کتاب)
+   ========================= */
+const QUESTIONS = [
   { text:"یک تاس سالم پرتاب می‌کنیم. احتمال آمدن عدد زوج چیست؟",
     sample:["1","2","3","4","5","6"], event:["2","4","6"], anim:"dice" },
   { text:"تاس می‌اندازیم. احتمال آمدن عدد 5 چیست؟",
@@ -30,17 +30,16 @@ const questions = [
   { text:"تاس می‌اندازیم. احتمال آمدن 3 یا 4 چیست؟",
     sample:["1","2","3","4","5","6"], event:["3","4"], anim:"dice" },
 
-  // 11-18 سکه
   { text:"یک سکه سالم را پرتاب می‌کنیم. احتمال آمدن شیر چیست؟",
     sample:["شیر","خط"], event:["شیر"], anim:"coin" },
   { text:"یک سکه سالم را پرتاب می‌کنیم. احتمال آمدن خط چیست؟",
     sample:["شیر","خط"], event:["خط"], anim:"coin" },
   { text:"دو بار سکه می‌زنیم. فضای نمونه چیست؟",
-    sample:["شیر-شیر","شیر-خط","خط-شیر","خط-خط"], event:[], anim:"coin" }, // event خالی برای تست نمایش S
+    sample:["شیر-شیر","شیر-خط","خط-شیر","خط-خط"], event:[], anim:"coin" },
   { text:"دو بار سکه می‌زنیم. احتمال آمدن دقیقاً یک شیر چیست؟",
     sample:["شیر-شیر","شیر-خط","خط-شیر","خط-خط"], event:["شیر-خط","خط-شیر"], anim:"coin" },
   { text:"سه بار سکه می‌زنیم. احتمال آمدن همه‌شان شیر چیست؟",
-    sample:["ش-ش-ش","ش-ش-خ","...","خ-خ-خ"], event:["ش-ش-ش"], anim:"coin" },
+    sample:["ش-ش-ش","ش-ش-خ","ش-خ-ش","خ-ش-ش","...","خ-خ-خ"], event:["ش-ش-ش"], anim:"coin" },
   { text:"یک سکه و یک تاس می‌اندازیم. احتمال آمدن شیر و عدد زوج چیست؟",
     sample:["1-شیر","1-خط","2-شیر","2-خط","3-شیر","3-خط","4-شیر","4-خط","5-شیر","5-خط","6-شیر","6-خط"],
     event:["2-شیر","4-شیر","6-شیر"], anim:"dice" },
@@ -49,7 +48,6 @@ const questions = [
   { text:"پرتاب سکه: احتمال آمدن الگوی شیر-خط چیست؟",
     sample:["ش-ش","ش-خ","خ-ش","خ-خ"], event:["ش-خ"], anim:"coin" },
 
-  // 19-30 گوی‌ها/کیسه
   { text:"کیسه‌ای با 3 توپ قرمز و 2 توپ آبی داریم. احتمال بیرون آمدن توپ آبی؟",
     sample:["قرمز","قرمز","قرمز","آبی","آبی"], event:["آبی","آبی"], anim:"balls" },
   { text:"کیسه‌ای با 4 زرد و 1 سفید داریم. احتمال انتخاب سفید چیست؟",
@@ -69,10 +67,9 @@ const questions = [
     sample:[...Array(5).fill("سالم"),...Array(3).fill("خراب")], event:[...Array(5).fill("سالم")], anim:"balls" },
   { text:"کیسه: 7 توپ که 1 طلایی،6 معمولی؛ احتمال طلایی؟",
     sample:[...Array(6).fill("معمولی"),"طلایی"], event:["طلایی"], anim:"balls" },
-  { text:"کیسه‌ای با 9 توپ؛ 3 قرمز،3 آبی،3 سبز. احتمال انتخاب رنگی خاص (مثلاً آبی)؟",
+  { text:"کیسه‌ای با 9 توپ؛ 3 قرمز،3 آبی،3 سبز. احتمال انتخاب آبی؟",
     sample:[...Array(3).fill("قرمز"),...Array(3).fill("آبی"),...Array(3).fill("سبز")], event:[...Array(3).fill("آبی")], anim:"balls" },
 
-  // 31-38 اعداد/کارت‌ها
   { text:"از اعداد 1 تا 10، احتمال انتخاب عدد زوج چیست؟",
     sample:Array.from({length:10},(_,i)=>String(i+1)), event:["2","4","6","8","10"], anim:"none" },
   { text:"از اعداد 1 تا 20، احتمال انتخاب مضرب 5 چیست؟",
@@ -90,7 +87,6 @@ const questions = [
   { text:"از اعداد 1..15 احتمال انتخاب مضرب 5 چیست؟",
     sample:Array.from({length:15},(_,i)=>String(i+1)), event:["5","10","15"], anim:"none" },
 
-  // 39-44 خانواده/انتخاب افراد
   { text:"در کلاس 30 نفر، 18 پسر و 12 دخترند. احتمال انتخاب یک دختر چیست؟",
     sample:[...Array(18).fill("پسر"),...Array(12).fill("دختر")], event:[...Array(12).fill("دختر")], anim:"balls" },
   { text:"در کلاس 5 نفر (علی،رضا،نازنین،مریم،کیان) احتمال انتخاب یک دختر چیست؟",
@@ -102,11 +98,10 @@ const questions = [
   { text:"در یک گروه 12 نفری 4 نفر عینکی‌اند؛ احتمال انتخاب عینکی؟",
     sample:[...Array(4).fill("عینکی"),...Array(8).fill("بدون")], event:[...Array(4).fill("عینکی")], anim:"balls" },
 
-  // 45-50 ترکیبی/متمم/دیگر
   { text:"دو تاس پرتاب می‌کنیم؛ احتمال اینکه مجموع برابر 7 شود چیست؟",
     sample:(function(){ let s=[]; for(let a=1;a<=6;a++)for(let b=1;b<=6;b++) s.push(a+"+"+b); return s })(),
     event:["1+6","2+5","3+4","4+3","5+2","6+1"], anim:"dice" },
-  { text:"پرسش متمم: اگر احتمال آمدن حالت A برابر 1/4 باشد، احتمال متمم A چیست؟ (نمایش S و A در سوال‌های دیگر)",
+  { text:"پرسش متمم: اگر احتمال آمدن A برابر 1/4 باشد، احتمال متمم A چیست؟",
     sample:["A","notA"], event:["notA"], anim:"none" },
   { text:"از 20 عدد یک عدد انتخاب می‌شود؛ احتمال انتخاب عدد کمتر از 5 چیست؟",
     sample:Array.from({length:20},(_,i)=>String(i+1)), event:["1","2","3","4"], anim:"none" },
@@ -114,229 +109,358 @@ const questions = [
     sample:[...Array(8).fill("ساده"),...Array(2).fill("کاراملی")], event:[...Array(2).fill("کاراملی")], anim:"balls" },
   { text:"ریاضی ترکیبی: از 4 کارت 1 تا 4، احتمال انتخاب 2 یا 4 چیست؟",
     sample:["1","2","3","4"], event:["2","4"], anim:"none" }
-]; // end questions (50 items)
+]; // length should be 50 (this set includes 50 items)
 
-/* ====== DOM elements ====== */
-const qText = document.getElementById("questionText");
-const sampleSpaceEl = document.getElementById("sampleSpace");
-const nSEl = document.getElementById("nS");
-const nAEl = document.getElementById("nA");
-const userNumEl = document.getElementById("userNum");
-const userDenEl = document.getElementById("userDen");
-const resultEl = document.getElementById("result");
-const nextBtn = document.getElementById("nextBtn");
-const checkBtn = document.getElementById("checkBtn");
-const diceCanvas = document.getElementById("diceCanvas");
-const coinCanvas = document.getElementById("coinCanvas");
-const ballsCanvas = document.getElementById("ballsCanvas");
+/* =========================
+   عناصر DOM
+   ========================= */
+const qText = document.getElementById('qText');
+const sampleBox = document.getElementById('sampleBox');
+const nS = document.getElementById('nS');
+const nA = document.getElementById('nA');
+const userNum = document.getElementById('userNum');
+const userDen = document.getElementById('userDen');
+const resultDiv = document.getElementById('result');
+const explainDiv = document.getElementById('explain');
+const nextBtn = document.getElementById('nextBtn');
+const checkBtn = document.getElementById('checkBtn');
+const coinCanvas = document.getElementById('coinCanvas');
+const diceCanvas = document.getElementById('diceCanvas');
+const ballsCanvas = document.getElementById('ballsCanvas');
+const coinBtn = document.getElementById('coinBtn');
+const diceBtn = document.getElementById('diceBtn');
+const ballsBtn = document.getElementById('ballsBtn');
+const scoreSpan = document.getElementById('score');
+const doneSpan = document.getElementById('doneCount');
 
-/* ====== three.js states for cleanup ====== */
-const threeStates = {};
-function clearThreeFor(canvasId) {
-  const state = threeStates[canvasId];
-  if (state) {
-    cancelAnimationFrame(state.animId);
-    try { state.renderer.dispose(); } catch(e){}
-    delete threeStates[canvasId];
-  }
-}
-
-/* ====== pick & show question ====== */
+/* state */
 let current = null;
-function pickQuestion() {
-  current = questions[Math.floor(Math.random()*questions.length)];
-  showQuestion(current);
-}
-function showQuestion(q) {
+let score = 0;
+let done = 0;
+
+/* utility: pick random */
+function randInt(n){ return Math.floor(Math.random()*n); }
+
+/* show question (supports long samples) */
+function showQuestion(q){
+  current = q;
   qText.textContent = q.text;
-  // sample display
-  const maxShow = 40;
-  if (q.sample.length <= maxShow) {
-    sampleSpaceEl.textContent = "{ " + q.sample.join(" , ") + " }";
+  // sample display (if long, show counts)
+  if (q.sample.length <= 24) {
+    sampleBox.textContent = "فضای نمونه S = { " + q.sample.join(" , ") + " }";
   } else {
+    // summarize counts
     const counts = {};
     q.sample.forEach(x=> counts[x] = (counts[x]||0)+1);
     const parts = Object.keys(counts).map(k => `${k}×${counts[k]}`);
-    sampleSpaceEl.textContent = "{ " + parts.join(" , ") + " }";
+    sampleBox.textContent = "فضای نمونه S = { " + parts.join(" , ") + " }";
   }
-  nSEl.textContent = q.sample.length;
-  nAEl.textContent = q.event.length;
-  userNumEl.value = "";
-  userDenEl.value = "";
-  resultEl.textContent = "جواب را وارد کن و بررسی را بزن.";
-  runAnimationFor(q.anim);
+  nS.textContent = q.sample.length;
+  nA.textContent = q.event.length;
+  userNum.value = "";
+  userDen.value = "";
+  resultDiv.style.color = "#1a3b6a";
+  resultDiv.innerHTML = "جواب را وارد کن و بررسی را بزن.";
+  explainDiv.textContent = "توضیح کوتاه بعد از بررسی نمایش داده می‌شود.";
+  // run animation relevant
+  runAnimation(q.anim);
 }
 
-/* ====== check answer (accept equivalent fractions) ====== */
-checkBtn.addEventListener("click", ()=>{
-  if (!current) return;
-  const n = Number(userNumEl.value);
-  const d = Number(userDenEl.value);
+/* pick next random question */
+function pickNext() {
+  const idx = randInt(QUESTIONS.length);
+  showQuestion(QUESTIONS[idx]);
+}
+nextBtn.addEventListener('click', pickNext);
+
+/* check answer accepting equivalent fractions */
+checkBtn.addEventListener('click', ()=>{
+  if (!current) {
+    resultDiv.style.color = "crimson";
+    resultDiv.textContent = "ابتدا یک سؤال انتخاب کن.";
+    return;
+  }
+  const n = Number(userNum.value);
+  const d = Number(userDen.value);
   if (!Number.isFinite(n) || !Number.isFinite(d) || d === 0) {
-    resultEl.style.color = "crimson";
-    resultEl.innerHTML = "ورودی نامعتبر — صورت و مخرج را عددی و مخرج را غیرصفر وارد کن.";
+    resultDiv.style.color = "crimson";
+    resultDiv.innerHTML = "ورودی نامعتبر — صورت و مخرج را عددی و مخرج را غیرصفر وارد کن.";
     return;
   }
   const correctNum = current.event.length;
   const correctDen = current.sample.length;
+  // accept equivalent fractions
   if (n * correctDen === d * correctNum) {
-    resultEl.style.color = "green";
-    const decimal = (correctNum/correctDen);
-    resultEl.innerHTML = `✔️ درست! P(A) = ${correctNum}/${correctDen} = ${decimal.toFixed(3)} <br>توضیح: از ${correctDen} حالت ممکن، ${correctNum} حالت مطلوب وجود دارد.`;
+    resultDiv.style.color = "green";
+    const dec = (correctNum/correctDen).toFixed(3);
+    resultDiv.innerHTML = `✔ درست! P(A) = ${correctNum}/${correctDen} = ${dec}`;
+    explainDiv.innerHTML = `توضیح: از ${correctDen} حالت ممکن، ${correctNum} حالت مطلوب وجود دارد.`;
+    score += 1;
+    done += 1;
   } else {
-    resultEl.style.color = "red";
-    const decimal = (correctNum/correctDen);
-    resultEl.innerHTML = `❌ نادرست. پاسخ صحیح: ${correctNum}/${correctDen} = ${decimal.toFixed(3)} <br>توضیح کوتاه: n(A) = ${correctNum} و n(S) = ${correctDen}.`;
+    resultDiv.style.color = "red";
+    const dec = (correctNum/correctDen).toFixed(3);
+    resultDiv.innerHTML = `❌ نادرست. پاسخ صحیح: ${correctNum}/${correctDen} = ${dec}`;
+    explainDiv.innerHTML = `توضیح کوتاه: n(A) = ${correctNum} و n(S) = ${correctDen}.`;
+    done += 1;
   }
+  scoreSpan.textContent = score;
+  doneSpan.textContent = done;
 });
 
-/* ====== next button ====== */
-nextBtn.addEventListener("click", ()=> pickQuestion());
+/* =============
+   Canvas utilities
+   ============= */
 
-/* ====== GLB loader + canvas helpers ====== */
-function loadGLBIntoCanvas(canvas, modelPath) {
-  if (!canvas) return;
-  clearThreeFor(canvas.id);
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight;
-  canvas.width = Math.floor(width*(window.devicePixelRatio||1));
-  canvas.height = Math.floor(height*(window.devicePixelRatio||1));
-  const renderer = new THREE.WebGLRenderer({canvas:canvas, alpha:true, antialias:true});
-  renderer.setPixelRatio(window.devicePixelRatio||1);
-  renderer.setSize(width, height, false);
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 100);
-  camera.position.set(0, 1.2, 3);
-  const hemi = new THREE.HemisphereLight(0xffffff,0x444444,0.8); scene.add(hemi);
-  const dir = new THREE.DirectionalLight(0xffffff,0.8); dir.position.set(3,3,3); scene.add(dir);
-  const loader = new THREE.GLTFLoader();
-  let modelRoot = null;
-  loader.load(modelPath, gltf=>{
-    modelRoot = gltf.scene;
-    const box = new THREE.Box3().setFromObject(modelRoot);
-    const size = new THREE.Vector3(); box.getSize(size);
-    const maxDim = Math.max(size.x,size.y,size.z);
-    const scale = maxDim>0 ? (1.2/maxDim) : 1;
-    modelRoot.scale.set(scale,scale,scale);
-    box.setFromObject(modelRoot);
-    box.getCenter(size);
-    modelRoot.position.x -= size.x;
-    modelRoot.position.y -= box.min.y;
-    scene.add(modelRoot);
-  }, undefined, err=>{
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "#222";
-    ctx.font = `${16*(window.devicePixelRatio||1)}px sans-serif`;
-    ctx.textAlign = "center";
-    ctx.fillText("مدل سه‌بعدی پیدا نشد:", canvas.width/2, canvas.height/2 - 10);
-    ctx.fillText(modelPath, canvas.width/2, canvas.height/2 + 18);
-  });
-  let rot = 0;
-  function animate(){
-    const animId = requestAnimationFrame(animate);
-    if (modelRoot) {
-      modelRoot.rotation.y += 0.02;
-      modelRoot.rotation.x = Math.sin(rot)*0.08;
-      rot += 0.02;
+/* setup HiDPI canvas */
+function setupCanvas(c) {
+  const w = c.clientWidth;
+  const h = c.clientHeight;
+  const dpr = window.devicePixelRatio || 1;
+  c.width = Math.floor(w * dpr);
+  c.height = Math.floor(h * dpr);
+  c.style.width = w + "px";
+  c.style.height = h + "px";
+  const ctx = c.getContext("2d");
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  return ctx;
+}
+
+/* ----- coin animation (flip) ----- */
+let coinAnimating = false;
+function coinFlipOnce(onComplete){
+  if (coinAnimating) return;
+  coinAnimating = true;
+  const ctx = setupCanvas(coinCanvas);
+  const W = coinCanvas.clientWidth;
+  const H = coinCanvas.clientHeight;
+  let t = 0;
+  const total = 60; // frames
+  const side = Math.random()<0.5 ? 'رو' : 'پشت';
+  function frame(){
+    t++;
+    ctx.clearRect(0,0,W,H);
+    // perspective scaling to simulate flip
+    const prog = Math.sin((t/total)*Math.PI*2); // -1..1
+    const scale = Math.abs(Math.cos((t/total)*Math.PI)); // 0..1..0
+    const rx = W/2, ry = H/2;
+    ctx.save();
+    ctx.translate(rx,ry);
+    // tilt while flipping
+    const tilt = Math.sin(t/6)*0.2;
+    ctx.rotate(tilt);
+    ctx.scale(1, 0.6 + 0.4*scale); // flatten to simulate edge view
+    // draw coin
+    ctx.beginPath();
+    ctx.fillStyle = "#ffd54a";
+    ctx.ellipse(0,0,60,60,0,0,Math.PI*2);
+    ctx.fill();
+    // center mark as head/tail when visible
+    if (scale > 0.4) {
+      ctx.fillStyle = "#8b5e00";
+      ctx.font = "20px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(t%2===0? side : (side==='رو'?'پشت':'رو'), 0, 0);
     }
-    renderer.render(scene, camera);
-    threeStates[canvas.id] = { renderer, scene, camera, animId };
+    ctx.restore();
+    if (t < total) requestAnimationFrame(frame);
+    else {
+      coinAnimating = false;
+      if (onComplete) onComplete(side);
+    }
   }
-  animate();
+  frame();
 }
 
-function clearThreeFor(canvasId) {
-  const state = threeStates[canvasId];
-  if (state) {
-    cancelAnimationFrame(state.animId);
-    try { state.renderer.dispose(); } catch(e){}
-    delete threeStates[canvasId];
+/* ----- dice animation (rotating cube illusion) ----- */
+let diceAnimating = false;
+function diceRollOnce(onComplete){
+  if (diceAnimating) return;
+  diceAnimating = true;
+  const ctx = setupCanvas(diceCanvas);
+  const W = diceCanvas.clientWidth;
+  const H = diceCanvas.clientHeight;
+  // We'll simulate a rotating cube by drawing a square with shadow + animated pips moving
+  let frameN = 0;
+  const total = 50;
+  const finalFace = randInt(6)+1;
+  function drawFace(face, x,y,sideSize){
+    // white square
+    ctx.fillStyle = "#fff";
+    ctx.strokeStyle = "#ddd";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    roundRect(ctx,x-sideSize/2,y-sideSize/2,sideSize,sideSize,14);
+    ctx.fill();
+    ctx.stroke();
+    // pips positions relative
+    ctx.fillStyle = "#222";
+    const s = sideSize/6;
+    const positions = {
+      1:[[0,0]],
+      2:[[-s,-s],[s,s]],
+      3:[[-s,-s],[0,0],[s,s]],
+      4:[[-s,-s],[s,-s],[-s,s],[s,s]],
+      5:[[-s,-s],[s,-s],[0,0],[-s,s],[s,s]],
+      6:[[-s,-s],[0,-s],[s,-s],[-s,s],[0,s],[s,s]]
+    };
+    (positions[face]||positions[1]).forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(x + p[0], y + p[1], Math.max(5, sideSize*0.06), 0, Math.PI*2);
+      ctx.fill();
+    });
   }
+  function anim(){
+    frameN++;
+    ctx.clearRect(0,0,W,H);
+    // compute wobble for 3D illusion
+    const wob = Math.sin(frameN/6) * 12;
+    const size = Math.min(W,H)*0.45;
+    // draw three projected faces (top/front/side) to create cube illusion
+    const cx = W/2, cy = H/2;
+    // draw back square slightly darker (simulate rotation)
+    const progressive = frameN/total;
+    const showing = Math.round(1 + 5 * progressive); // 1..6 increasing randomness
+    const faceToShow = (frameN < total-6) ? (randInt(6)+1) : finalFace;
+    drawFace(faceToShow, cx, cy - wob*0.6, size);
+    if (frameN < total) requestAnimationFrame(anim);
+    else {
+      diceAnimating = false;
+      if (onComplete) onComplete(finalFace);
+    }
+  }
+  anim();
+}
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
 }
 
-/* ====== balls 2D animation ====== */
-function playBalls2D(canvas) {
+/* ----- balls 2D animation ----- */
+let ballsAnimId = null;
+function playBalls(canvas){
   if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight;
-  canvas.width = Math.floor(width*(window.devicePixelRatio||1));
-  canvas.height = Math.floor(height*(window.devicePixelRatio||1));
+  const ctx = setupCanvas(canvas);
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
   const colors = ["#ff6b6b","#4dabf7","#ffd43b","#8aff8a","#b983ff","#ff8fa3"];
   const balls = [];
   const count = 6;
   for (let i=0;i<count;i++){
     balls.push({
-      x: Math.random()*canvas.width,
-      y: Math.random()*canvas.height,
-      r: 18+Math.random()*12,
-      vx: (Math.random()-0.5)*2,
-      vy: (Math.random()-0.5)*2,
+      x: Math.random()*(W-60)+30,
+      y: Math.random()*(H-60)+30,
+      r: 16 + Math.random()*14,
+      vx: (Math.random()-0.5)*2.4,
+      vy: (Math.random()-0.5)*2.4,
       color: colors[i%colors.length]
     });
   }
   let frames = 0;
   function step(){
     frames++;
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.clearRect(0,0,W,H);
     balls.forEach(b=>{
-      b.x += b.vx;
-      b.y += b.vy;
-      if (b.x-b.r<0 || b.x+b.r>canvas.width) b.vx *= -1;
-      if (b.y-b.r<0 || b.y+b.r>canvas.height) b.vy *= -1;
+      b.x += b.vx; b.y += b.vy;
+      if (b.x-b.r<0 || b.x+b.r>W) b.vx *= -1;
+      if (b.y-b.r<0 || b.y+b.r>H) b.vy *= -1;
       ctx.beginPath();
-      ctx.fillStyle = b.color;
-      ctx.arc(b.x,b.y,b.r,0,Math.PI*2); ctx.fill(); ctx.closePath();
+      const g = ctx.createRadialGradient(b.x-b.r/3,b.y-b.r/3,b.r*0.2,b.x,b.y,b.r);
+      g.addColorStop(0, lighten(b.color,0.25));
+      g.addColorStop(1, b.color);
+      ctx.fillStyle = g;
+      ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
+      ctx.fill();
     });
-    if (frames<600) requestAnimationFrame(step);
+    if (frames < 600) ballsAnimId = requestAnimationFrame(step);
   }
+  if (ballsAnimId) cancelAnimationFrame(ballsAnimId);
   step();
 }
+function lighten(hex, amt){
+  // expect #rrggbb
+  const c = hex.replace('#','');
+  const num = parseInt(c,16);
+  let r = (num>>16)+Math.round(255*amt);
+  let g = ((num>>8)&0x00FF)+Math.round(255*amt);
+  let b = (num&0x0000FF)+Math.round(255*amt);
+  r = Math.min(255,r); g = Math.min(255,g); b = Math.min(255,b);
+  return '#'+( (1<<24) + (r<<16) + (g<<8) + b ).toString(16).slice(1);
+}
 
-/* ====== run appropriate animation per question ====== */
-function runAnimationFor(animType) {
-  // cleanup previous three states
-  Object.keys(threeStates).forEach(k=>clearThreeFor(k));
-  // clear 2D
-  [diceCanvas, coinCanvas, ballsCanvas].forEach(c=>{
-    if(c && c.getContext) { const ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height); }
-    c.style.display = "none";
+/* run animation per type */
+function runAnimation(type){
+  // clear canvases
+  [coinCanvas, diceCanvas, ballsCanvas].forEach(c=>{
+    const ctx = c.getContext && c.getContext('2d');
+    if (ctx) { ctx.clearRect(0,0,c.width,c.height); }
   });
-  if (animType === "dice") {
-    diceCanvas.style.display = "block";
-    loadGLBIntoCanvas(diceCanvas, "dice.glb");
-  } else if (animType === "coin") {
-    coinCanvas.style.display = "block";
-    loadGLBIntoCanvas(coinCanvas, "coin.glb");
-  } else if (animType === "balls") {
-    ballsCanvas.style.display = "block";
-    playBalls2D(ballsCanvas);
+  if (type === "coin") {
+    // automatic flip for display
+    coinFlipOnce((side)=> {
+      // show result in explain
+      explainDiv.innerText = `سکه: نتیجهٔ تصادفی — ${side}`;
+    });
+  } else if (type === "dice") {
+    diceRollOnce((face) => {
+      explainDiv.innerText = `تاس: عدد تصادفی — ${face}`;
+    });
+  } else if (type === "balls") {
+    playBalls(ballsCanvas);
+    explainDiv.innerText = "گوی‌ها نمایش داده شدند — فضای نمونه بالا نشان داده شده است.";
   } else {
-    // none: nothing to show
+    // none: do nothing
+    explainDiv.innerText = "برای این سؤال انیمیشن خاصی لازم نیست.";
   }
 }
 
-/* ====== init ====== */
-window.addEventListener("load", ()=>{
-  // ensure canvases sized
-  [diceCanvas, coinCanvas, ballsCanvas].forEach(c=>{
-    c.width = Math.max(200, Math.floor(c.clientWidth*(window.devicePixelRatio||1)));
-    c.height = Math.max(200, Math.floor(c.clientHeight*(window.devicePixelRatio||1)));
+/* manual buttons */
+coinBtn.addEventListener('click', ()=> coinFlipOnce((side)=> explainDiv.innerText = `سکه: ${side}`));
+diceBtn.addEventListener('click', ()=> diceRollOnce((f)=> explainDiv.innerText = `تاس: ${f}`));
+ballsBtn.addEventListener('click', ()=> playBalls(ballsCanvas));
+
+/* init canvases hi-dpi */
+function initCanvases(){
+  [coinCanvas, diceCanvas, ballsCanvas].forEach(c=>{
+    const dpr = window.devicePixelRatio || 1;
+    c.width = Math.floor(c.clientWidth * dpr);
+    c.height = Math.floor(c.clientHeight * dpr);
+    const ctx = c.getContext('2d');
+    ctx.setTransform(dpr,0,0,dpr,0,0);
   });
-  pickQuestion();
+}
+
+/* on load */
+window.addEventListener('load', ()=>{
+  initCanvases();
+  pickInitial();
 });
 
-/* ====== resize handling ====== */
-window.addEventListener("resize", ()=>{
-  Object.keys(threeStates).forEach(cid=>{
-    const st = threeStates[cid];
-    if (!st) return;
-    const canvas = document.getElementById(cid);
-    if (!canvas) return;
-    const w = canvas.clientWidth;
-    const h = canvas.clientHeight;
-    st.renderer.setSize(w,h,false);
-    if (st.camera) { st.camera.aspect = w/h; st.camera.updateProjectionMatrix(); }
-  });
+/* pick initial and show first question */
+function pickInitial(){
+  const idx = randInt(QUESTIONS.length);
+  showQuestion(QUESTIONS[idx]);
+}
+
+/* resize handling */
+window.addEventListener('resize', ()=>{
+  initCanvases();
+});
+
+/* small helpers for math/formats */
+function gcd(a,b){ return b===0? a : gcd(b, a%b); }
+function simplifyFraction(n,d){
+  if (d===0) return [n,d];
+  const g = gcd(Math.abs(n), Math.abs(d));
+  return [n/g, d/g];
+}
+
+/* Accessibility: keyboard shortcuts */
+document.addEventListener('keydown', (e)=>{
+  if (e.key === 'n') nextBtn.click();
+  if (e.key === 'Enter') checkBtn.click();
 });
