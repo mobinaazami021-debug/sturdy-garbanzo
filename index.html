@@ -1,114 +1,93 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>آزمایشگاه احتمال — ریاضی نهم (Canvas 3D سبک)</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>آزمایشگاه احتمال — ریاضی نهم</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
-    <header>
-      <!-- کارتونی معلم (SVG داخلی تا نیاز به فایل نداشته باشی) -->
-      <div id="teacherWrap">
-        <svg id="teacherSVG" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0" stop-color="#ffd89b"/>
-              <stop offset="1" stop-color="#ffb3a7"/>
-            </linearGradient>
-          </defs>
-          <rect rx="14" width="160" height="160" fill="#f6f9ff"/>
-          <circle cx="80" cy="46" r="26" fill="url(#g1)"/>
-          <rect x="48" y="84" rx="10" width="64" height="56" fill="#ffe4d6"/>
-          <circle cx="68" cy="40" r="3" fill="#3b3b3b"/>
-          <circle cx="92" cy="40" r="3" fill="#3b3b3b"/>
-          <path d="M64 52 q16 12 32 0" stroke="#3b3b3b" stroke-width="2" fill="none" stroke-linecap="round"/>
-        </svg>
-        <div id="teacherBubble">سلام! من معلم احتمال تو هستم — آماده‌ای شروع کنی؟</div>
-      </div>
-
-      <div id="titleWrap">
-        <h1>آزمایشگاه احتمال — پایه نهم</h1>
-        <p class="subtitle">مثال‌ها، فضای نمونه، فرمول، و انیمیشن‌های تاس/سکه/گوی — همه با Canvas</p>
-      </div>
-    </header>
-
-    <main>
-      <section id="left">
-        <div class="card" id="questionCard">
-          <div class="meta">
-            <h2 id="qText">در حال بارگذاری سؤال...</h2>
-            <button id="nextBtn" class="primary">❯ سؤال بعدی</button>
-          </div>
-
-          <div class="box smallNote" id="sampleBox">فضای نمونه S: —</div>
-
-          <div class="counts">
-            <div>n(S) = <span id="nS">—</span></div>
-            <div>n(A) = <span id="nA">—</span></div>
-          </div>
-
-          <div class="formula">فرمول: <strong>P(A) = n(A) / n(S)</strong></div>
-
-          <div class="fractionInput">
-            <label>احتمال را به‌صورت کسر وارد کن:</label>
-            <div class="fractionInputs">
-              <input id="userNum" type="number" placeholder="صورت">
-              <span class="slash">/</span>
-              <input id="userDen" type="number" placeholder="مخرج">
-            </div>
-            <button id="checkBtn" class="primary">بررسی</button>
-          </div>
-
-          <div id="result" class="result">جواب را وارد کن و بررسی را بزن.</div>
-        </div>
-
-        <div class="card">
-          <h3>توضیح کوتاه</h3>
-          <div id="explain" class="box">بعد از بررسی، توضیح کوتاه دربارهٔ علت جواب نمایش داده می‌شود.</div>
-        </div>
-      </section>
-
-      <aside id="right">
-        <div class="card" id="animCard">
-          <h3>انیمیشن‌ها</h3>
-          <div id="canvasRow">
-            <div class="animBox">
-              <h4>سکه</h4>
-              <canvas id="coinCanvas" class="animCanvas"></canvas>
-              <button id="coinBtn" class="smallBtn">پرش سکه</button>
-            </div>
-            <div class="animBox">
-              <h4>تاس</h4>
-              <canvas id="diceCanvas" class="animCanvas"></canvas>
-              <button id="diceBtn" class="smallBtn">بچرخان تاس</button>
-            </div>
-            <div class="animBox">
-              <h4>گوی‌ها</h4>
-              <canvas id="ballsCanvas" class="animCanvas"></canvas>
-              <button id="ballsBtn" class="smallBtn">نمایش گوی‌ها</button>
-            </div>
-          </div>
-          <p class="smallNote">انیمیشن متناسب با سؤال به‌صورت خودکار اجرا می‌شود؛ اما می‌توانی دستی هم اجرا کنی.</p>
-        </div>
-
-        <div class="card">
-          <h3>امتیاز و وضعیت</h3>
-          <div class="box">
-            امتیاز: <span id="score">0</span><br>
-            تعداد سؤال حل‌شده: <span id="doneCount">0</span>
-          </div>
-        </div>
-
-      </aside>
-    </main>
-
-    <footer>
-      ساخته شده برای کلاس تو ❤ — آمادهٔ آپلود در GitHub Pages
-    </footer>
+<header>
+  <div class="header-inner">
+    <div class="brand">آزمایشگاه احتمال — پایه نهم</div>
+    <div class="teacher">
+      <!-- معلم کارتونی ساده (SVG داخلی) -->
+      <svg viewBox="0 0 120 120" class="teacher-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect rx="10" width="120" height="120" fill="#fff8e6"/>
+        <circle cx="60" cy="36" r="20" fill="#ffd2a6"/>
+        <rect x="30" y="56" width="60" height="44" rx="8" fill="#ffe7d1"/>
+        <circle cx="52" cy="32" r="2" fill="#333"/><circle cx="68" cy="32" r="2" fill="#333"/>
+        <path d="M50 44 q10 8 20 0" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="teacher-bubble" id="teacherBubble">سلام! آماده‌ای تمرین کنی؟</div>
+    </div>
   </div>
+</header>
 
-  <script src="script.js"></script>
+<main id="app">
+  <section id="left">
+    <div class="card" id="questionCard">
+      <div class="q-row">
+        <h2 id="qText">در حال بارگذاری سؤال...</h2>
+        <button id="nextBtn" class="btn primary">سؤال بعدی</button>
+      </div>
+
+      <div class="sample-box" id="sampleBox">فضای نمونه S: —</div>
+
+      <div class="counts">
+        <div>n(S) = <span id="nS">—</span></div>
+        <div>n(A) = <span id="nA">—</span></div>
+      </div>
+
+      <div class="formula">فرمول: <strong>P(A) = n(A) / n(S)</strong></div>
+
+      <div class="input-row">
+        <label>احتمال را به صورت کسر وارد کن:</label>
+        <div class="fraction">
+          <input id="userNum" type="number" placeholder="صورت">
+          <div class="bar"></div>
+          <input id="userDen" type="number" placeholder="مخرج">
+        </div>
+        <button id="checkBtn" class="btn">بررسی</button>
+      </div>
+
+      <div id="result" class="result">جواب را وارد کن و سپس «بررسی» را بزن.</div>
+      <div id="explain" class="explain">توضیح کوتاه اینجا نمایش داده می‌شود.</div>
+    </div>
+  </section>
+
+  <aside id="right">
+    <div class="card anim-card">
+      <h3>انیمیشن & نتیجهٔ واقعی</h3>
+      <div class="canvas-row">
+        <div class="animBox">
+          <h4>سکه</h4>
+          <canvas id="coinCanvas" class="animCanvas"></canvas>
+          <div class="smallNote">نتیجه: <span id="coinResult">—</span></div>
+        </div>
+        <div class="animBox">
+          <h4>تاس</h4>
+          <canvas id="diceCanvas" class="animCanvas"></canvas>
+          <div class="smallNote">نتیجه: <span id="diceResult">—</span></div>
+        </div>
+        <div class="animBox">
+          <h4>گوی‌ها</h4>
+          <canvas id="ballsCanvas" class="animCanvas"></canvas>
+          <div class="smallNote">نتیجه: <span id="ballsResult">—</span></div>
+        </div>
+      </div>
+      <p class="smallNote">انیمیشن مطابق با نوع سؤال اجرا می‌شود (پیش‌نمایش هنگام بارگذاری و نمایش نتیجهٔ واقعی هنگام بررسی).</p>
+    </div>
+
+    <div class="card info-card">
+      <h3>آمار کاربر</h3>
+      <div class="box">امتیاز: <span id="score">0</span> — حل شده: <span id="done">0</span></div>
+    </div>
+  </aside>
+</main>
+
+<footer>ساخته شده برای کلاس تو — مبینا ❤️</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
