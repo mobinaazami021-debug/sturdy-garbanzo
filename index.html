@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>آزمایشگاه احتمال — نسخه فوق‌پیشرفته</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🎲 آزمایشگاه کارتونی و انیمیشنی احتمال — ریاضی نهم 🎉</h1>
+
+<!-- امتیاز -->
+<div id="scoreCard" class="card">
+    <p>امتیاز: <span id="score">0</span></p>
+</div>
+
+<!-- مثال -->
+<div class="card">
+    <h2>مثال آموزشی</h2>
+    <p id="exampleText">روی «مثال بعدی» کلیک کن 👇</p>
+    <button onclick="loadExample()">🔄 مثال بعدی</button>
+</div>
+
+<!-- انیمیشن‌ها -->
+<div class="card">
+    <h2>🎬 ابزارهای آزمایش احتمال</h2>
+
+    <button onclick="rollDice3D()">🎲 تاس سه‌بعدی</button>
+    <div id="dice3D" class="dice hidden"></div>
+
+    <br><br>
+
+    <button onclick="flipCoin()">🪙 سکه چرخان</button>
+    <div id="coin" class="coin hidden"></div>
+
+    <br><br>
+
+    <button onclick="showBalls()">⚽ توپ‌های رنگی</button>
+    <div id="ballsBox" class="balls hidden"></div>
+</div>
+
+<!-- ورودی احتمال -->
+<div class="card">
+    <h2>محاسبه احتمال</h2>
+    <p>احتمال را به صورت کسر وارد کن:</p>
+
+    <div class="fraction">
+        <div><input id="numInput" type="number"></div>
+        <hr>
+        <div><input id="denInput" type="number"></div>
+    </div>
+
+    <br><br>
+    <button onclick="calculate()">✔️ بررسی جواب</button>
+
+    <div id="resultBox"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

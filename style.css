@@ -1,0 +1,113 @@
+body {
+    font-family: "Vazirmatn", sans-serif;
+    direction: rtl;
+    text-align: center;
+    background: linear-gradient(#aee5ff, #e3f6ff);
+    padding: 20px;
+}
+
+h1 {
+    color: #004b8d;
+    font-size: 32px;
+    text-shadow: 2px 2px #fff;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
+
+.card {
+    background: #fff7d1;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    box-shadow: 0px 0px 20px #0003;
+}
+
+button {
+    background: #ff9f1c;
+    color: white;
+    font-size: 19px;
+    padding: 12px 25px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ff7a00;
+    transform: scale(1.1);
+}
+
+.fraction input {
+    width: 60px;
+    font-size: 18px;
+    border: none;
+    border-bottom: 2px solid #444;
+    background: transparent;
+}
+
+.fraction {
+    font-size: 22px;
+    margin: 10px;
+}
+
+#resultBox {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* سکه چرخان */
+.coin {
+    width: 120px;
+    height: 120px;
+    margin: 15px auto;
+    background-image: url("https://i.imgur.com/2s1FzqE.png");
+    background-size: cover;
+    animation: spinCoin 1s linear;
+}
+
+@keyframes spinCoin {
+    from { transform: rotateY(0); }
+    to { transform: rotateY(900deg); }
+}
+
+/* تاس سه بعدی */
+.dice {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    background-size: cover;
+    animation: spinDice 1s ease-out;
+}
+
+@keyframes spinDice {
+    from { transform: rotateX(0) rotateY(0); }
+    to { transform: rotateX(720deg) rotateY(720deg); }
+}
+
+.hidden { display: none; }
+
+/* توپ‌های رنگی */
+.balls {
+    margin-top: 10px;
+}
+
+.ball {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    border-radius: 50%;
+    margin: 5px;
+    animation: pop 0.4s ease-out;
+}
+
+@keyframes pop {
+    from { transform: scale(0.2); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
